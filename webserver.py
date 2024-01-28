@@ -34,5 +34,18 @@ def add():
     
     return '', 204
 
+@app.route('/add', methods=['POST'])
+def login():
+    name = str(request.get_data())[7:]
+    username = str(name[:int(len(name)-1)])
+
+    if(os.path.exists(os.path.dirname(__file__)+"/user-data/"+username+".json")):
+        file = createUserFile(username)
+    else:
+        file = openUserfile(username)
+    content = json.load(file)
+    req = requests.post('http://localhost:8000/print')
+    return '', 204
+
 if __name__ == '__main__':
     app.run(debug=True, host='localhost', port=8001)
